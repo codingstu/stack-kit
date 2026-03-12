@@ -48,3 +48,19 @@ Extends the universal candidates in the base `docs/skill-candidates.md`.
   4. Assess regression risk.
 - **Output:** Markdown PR description.
 - **Verification:** Human review.
+
+### 5. impeccable-frontend-design
+- **Trigger:** New Vue view/component, redesign, or pre-shipping UI review.
+- **Inputs:** Component/view name, design goal, brand constraints.
+- **Steps:**
+  1. Define aesthetic direction in the `<style>` planning phase before writing template.
+  2. Typography: fluid `clamp()` scale, distinctive `@font-face` or hosted font pair.
+  3. Color: OKLCH CSS custom properties, tinted neutrals as scoped `<style>` variables.
+  4. Layout: varied spacing rhythm, asymmetry, no repeated icon-heading-text card grids.
+  5. Motion: Vue `<Transition>` with `ease-out-quart`, CSS `transform`/`opacity` only.
+  6. Interaction: progressive disclosure via `v-show`/`v-if`, optimistic reactive updates.
+  7. Run AI Slop Test — revise if it looks like a generic UI kit output.
+  8. Run `/audit` for a11y and responsive checks.
+- **Output:** Distinctive Vue component/view that avoids generic AI aesthetics.
+- **Verification:** AI Slop Test passes. `typecheck` + `test` green. No `/audit` critical issues.
+- **Reference:** [pbakaus/impeccable](https://github.com/pbakaus/impeccable)

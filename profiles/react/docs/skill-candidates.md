@@ -49,3 +49,19 @@ Extends the universal candidates in the base `docs/skill-candidates.md`.
   5. Assess regression risk.
 - **Output:** Markdown PR description.
 - **Verification:** Human review.
+
+### 5. impeccable-frontend-design
+- **Trigger:** New React component/page, redesign, or pre-shipping UI review.
+- **Inputs:** Component name and scope, design intent or reference.
+- **Steps:**
+  1. Define aesthetic direction — avoid defaulting to Inter font, gray-on-gray, blue CTA.
+  2. Typography: fluid scale with `clamp()`, distinctive font pair (display + body), clear weight hierarchy.
+  3. Color: OKLCH palette, tinted neutrals; no purple-to-blue gradients or glowing accents.
+  4. Layout: varied spacing rhythm, intentional asymmetry, no card-in-card nesting.
+  5. Motion: Framer Motion or CSS — `ease-out-quart`, `transform`/`opacity` only; no bounce/elastic.
+  6. Interaction: optimistic updates, progressive disclosure, meaningful empty states.
+  7. Run AI Slop Test before raising PR — revise if result looks obviously AI-generated.
+  8. Run `/audit` for a11y + responsive issues.
+- **Output:** Distinctive React component that doesn't resemble generic AI output.
+- **Verification:** AI Slop Test passes (no generic fingerprints). `typecheck` + `test` green.
+- **Reference:** [pbakaus/impeccable](https://github.com/pbakaus/impeccable)

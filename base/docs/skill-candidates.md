@@ -117,3 +117,26 @@ These are stack-agnostic workflows that apply to most projects:
 - **Output:** Task completed with verified real-world state, not assumptions.
 - **Verification:** The action was based on tool-returned data, not inferred.
 - **Automation potential:** Prompt — trigger with "check the current state of X" or "list files in Y".
+
+---
+
+## Frontend Design Candidates
+
+These candidates apply to frontend profiles only (`nextjs`, `react`, `vue`).
+
+### 8. impeccable-frontend-design
+- **Trigger:** Building or reviewing a UI page, component, or design system. Use before shipping any non-trivial UI.
+- **Inputs:** Target component/page or scope (e.g., "homepage hero", "checkout form"), design goal.
+- **Steps:**
+  1. Define aesthetic direction (tone, constraints, differentiation) before writing code.
+  2. Typography: pair distinctive fonts, use modular scale with fluid sizing (`clamp()`), vary weights for hierarchy.
+  3. Color: use OKLCH/`color-mix()`, tint neutrals toward brand hue, avoid pure black/white and generic AI palette (cyan-on-dark, purple-to-blue gradients, neon accents).
+  4. Layout: create spacing rhythm, embrace asymmetry, avoid card-in-card nesting, avoid identical icon-grid cards.
+  5. Motion: exponential easing (`ease-out-quart/quint/expo`), animate `transform`/`opacity` only — never layout properties.
+  6. Interaction: progressive disclosure, optimistic UI, empty states that teach.
+  7. Run **AI Slop Test**: would someone immediately say "AI made this"? If yes, revise.
+  8. Run `/audit` (a11y, performance, responsive); finish with `/polish` before shipping.
+- **Output:** Visually distinctive, production-grade UI that avoids generic AI aesthetics.
+- **Verification:** AI Slop Test fails (good outcome). `/audit` passes with no critical issues.
+- **Automation potential:** Prompt — use Impeccable commands: `/audit`, `/critique`, `/normalize`, `/polish`, `/distill`, `/animate`, `/harden`, `/bolder`, `/quieter`.
+- **Reference:** [pbakaus/impeccable](https://github.com/pbakaus/impeccable) — 1 skill, 17 commands, curated anti-patterns. Apache 2.0.

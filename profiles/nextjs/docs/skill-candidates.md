@@ -50,3 +50,19 @@ Extends the universal candidates in the base `docs/skill-candidates.md`.
   5. Assess rollout risk.
 - **Output:** Markdown PR description.
 - **Verification:** Human review.
+
+### 5. impeccable-frontend-design
+- **Trigger:** New page route, marketing section, or dashboard UI; or pre-shipping design review.
+- **Inputs:** Route/component path, design goal, brand constraints.
+- **Steps:**
+  1. Define aesthetic direction before writing JSX — pick a tone and differentiation angle.
+  2. Typography: fluid modular scale (`clamp()`), distinctive font loaded via `next/font`.
+  3. Color: OKLCH/`color-mix()`, tinted neutrals; avoid generic AI palettes.
+  4. Layout: rhythm through varied spacing, break grid for emphasis, no card-in-card.
+  5. Motion: CSS or Framer Motion — exponential easing, `transform`/`opacity` only.
+  6. Respect `prefers-reduced-motion`; use container queries for component responsiveness.
+  7. Run AI Slop Test; revise until the result looks intentionally designed.
+  8. Run `/audit` — close all a11y and responsive issues before merge.
+- **Output:** Production-grade Next.js page/component with distinctive visual identity.
+- **Verification:** AI Slop Test passes. `typecheck` + `test` green. No `/audit` critical issues.
+- **Reference:** [pbakaus/impeccable](https://github.com/pbakaus/impeccable)

@@ -101,7 +101,8 @@ your-repo/
 | When and how to split modules | §8 Component & Module Splitting |
 | Maintain context across sessions | §9 Context & Memory |
 | Prevent hallucinated code | §10 Anti-Hallucination Rules |
-| Clear definition of done | §11 Definition of Done |
+| Web search and MCP tool use | §11 Tool Use Guidelines |
+| Clear definition of done | §12 Definition of Done |
 
 ## Compatibility
 
@@ -115,6 +116,22 @@ Stack Kit works with any AI tool that reads markdown files from the repo:
 | OpenClaw | `AGENTS.md`, `docs/` |
 | Windsurf | `AGENTS.md`, `docs/` |
 | Any LLM via manual prompt | Paste from `AGENTS.md` or `docs/` |
+
+## Frontend Design Quality
+
+For frontend profiles (`nextjs`, `react`, `vue`), Stack Kit ships the **`impeccable-frontend-design`** skill candidate — a design-quality workflow based on [pbakaus/impeccable](https://github.com/pbakaus/impeccable) (Apache 2.0, 4.4k ★).
+
+It trains the AI assistant to:
+
+- **Define aesthetic direction first** — commit to a bold tone (brutalist, editorial, luxury, etc.) before writing any code
+- **Avoid the generic AI palette** — no Inter/Roboto, no cyan-on-dark, no purple-to-blue gradients
+- **Apply modern CSS practices** — OKLCH color functions, `clamp()` fluid scales, container queries, `ease-out-quart` motion
+- **Break anti-patterns explicitly** — no card-in-card nesting, no bounce easing, no glassmorphism by default, no modals as first resort
+- **Run the AI Slop Test** before shipping: if someone would immediately say "AI made this", revise
+
+Audit and polish commands available: `/audit`, `/critique`, `/normalize`, `/polish`, `/distill`, `/animate`, `/harden`, `/bolder`, `/quieter`, and more.
+
+See `docs/skill-candidates.md` (skill #5) in each frontend profile for the full step-by-step workflow.
 
 ## Contributing
 
