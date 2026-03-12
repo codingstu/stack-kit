@@ -1,145 +1,67 @@
-# Stack Kit
+# AI Project Stack Kit
 
-> One base, five stack overlays. Production-grade AI coding rules for any project.
+一套尽量不重复的开发规范模板：
+- `base/` 放跨栈共用的 `AGENTS.md`、通用 prompts、通用 rules。
+- `profiles/` 放各技术栈的薄覆盖层，只覆盖 `docs/` 和少量路径规则。
+- `scripts/install.sh` 可以把 `base + profile` 一次性拷进新仓库。
 
-Stack Kit gives every AI coding assistant (Claude Code, GitHub Copilot, Cursor, OpenClaw, Windsurf, and others) a shared understanding of your project's architecture, commands, and quality standards. Core rules are maintained once; each tech stack only overrides the differences.
+支持的 profile：
+- `nextjs`
+- `fastapi`
+- `react`
+- `vue`
+- `python`
 
-## Why
+## 安装
 
-AI assistants write better code when they know:
-- **What** you're building (`docs/spec.md`)
-- **Where** things live (`docs/architecture.md`)
-- **How** to check their work (`docs/commands.md`)
-- **What** decisions were made and why (`docs/decisions.md`)
-
-Without this context, AI assistants hallucinate file paths, invent APIs, skip tests, and ignore your project's conventions. Stack Kit solves this by installing a structured `docs/` folder and tool-specific adapter files into your repository.
-
-## Supported Stacks
-
-| Profile | Use Case | Key Tools |
-|---------|----------|-----------|
-| `nextjs` | Full-stack web app (App Router) | Next.js, React, TypeScript, Vitest |
-| `react` | Client-side SPA / dashboard | Vite, React, TypeScript, Vitest |
-| `vue` | Vue 3 SPA | Vite, Vue 3, TypeScript, Vitest |
-| `fastapi` | HTTP API / backend service | FastAPI, Pydantic, pytest, ruff, mypy |
-| `python` | Library / CLI / worker / automation | pyproject.toml, src/ layout, pytest, ruff, mypy |
-
-See [PROFILE_SELECTION.md](PROFILE_SELECTION.md) for detailed selection guidance.
-
-## Quick Start
-
-### Install into a project
+在解压目录下执行：
 
 ```bash
-bash scripts/install.sh <target-dir> <profile>
+bash scripts/install.sh /path/to/repo <profile>
 ```
 
-**Examples:**
+例如：
+
 ```bash
 bash scripts/install.sh ~/code/my-app nextjs
 bash scripts/install.sh ~/code/my-api fastapi
-bash scripts/install.sh ~/code/my-admin react
-bash scripts/install.sh ~/code/my-vue-app vue
-bash scripts/install.sh ~/code/my-tool python
+bash scripts/install.sh ~/code/my-lib python
 ```
 
-### Options
+安装后建议先做三件事：
+1. 填 `docs/spec.md`
+2. 改 `docs/commands.md` 里的占位命令
+3. 把 `AGENTS.md` 里与仓库不符的占位内容替换掉
 
-```bash
-bash scripts/install.sh ~/code/my-app nextjs --dry-run    # preview without writing
-bash scripts/install.sh ~/code/my-app nextjs --force       # overwrite without prompt
-bash scripts/install.sh ~/code/my-app nextjs --no-backup   # skip .bak files
+## 目录说明
+
+```text
+base/
+  AGENTS.md
+  CLAUDE.md
+  .cursor/rules/00-core.mdc
+  .github/copilot-instructions.md
+  .github/prompts/*.prompt.md
+  docs/*.md
+profiles/
+  nextjs/
+  fastapi/
+  react/
+  vue/
+  python/
+scripts/
+  install.sh
 ```
 
-### After installation
 
-1. Fill `docs/spec.md` — describe your project's problem, users, and core flows.
-2. Review `docs/commands.md` — adjust commands for your actual setup.
-3. Review `docs/architecture.md` — customize the module layout.
-4. Start planning in `docs/plan.md` — add your first milestone.
+## Copilot 指令速查卡
 
-## What Gets Installed
+- 见 [`docs/copilot-cheatsheet.md`](docs/copilot-cheatsheet.md)
 
-```
-your-repo/
-├── AGENTS.md                        # AI workflow rules (map-first, verify-always)
-├── CLAUDE.md                        # Claude-specific adapter
-├── .cursor/rules/00-core.mdc        # Cursor rules
-├── .github/
-│   ├── copilot-instructions.md      # GitHub Copilot instructions
-│   └── prompts/
-│       ├── plan.prompt.md           # Task planning prompt
-│       ├── implement.prompt.md      # Implementation prompt
-│       └── review.prompt.md         # Code review prompt
-└── docs/
-    ├── spec.md                      # Product spec (fill this first)
-    ├── architecture.md              # Module boundaries, data flow, testing strategy
-    ├── plan.md                      # Current milestone, active work, next steps
-    ├── decisions.md                 # Architecture decision records
-    ├── commands.md                  # Dev, test, lint, build commands
-    └── skill-candidates.md          # Repeatable workflow candidates
-```
+## 设计原则
 
-## Design Principles
-
-1. **Single source of truth.** `docs/` is the authority. `AGENTS.md` navigates to it. Tool adapters (Cursor, Copilot) point to the same docs.
-2. **No duplication.** Rules are written once in `AGENTS.md`. Tool adapters reference it, they don't rewrite it.
-3. **Thin overlays.** Each profile overrides only `docs/architecture.md`, `docs/commands.md`, and `docs/skill-candidates.md`. Everything else comes from base.
-4. **Opt-in complexity.** No Tailwind, Pinia, React Query, SQLAlchemy, or Celery pre-installed. Add what you need, when you need it.
-5. **Verify-always.** Every change must pass the quality gate before it's considered done.
-
-## What the AI Rules Cover
-
-| Rule | Section in AGENTS.md |
-|------|---------------------|
-| Read docs first, code second | §1 Before You Touch Code |
-| Minimal diffs, no silent changes | §2 Core Principles |
-| Break tasks into small verifiable pieces | §3 Task Splitting |
-| Test-first implementation | §4, §6 |
-| Self-verify after every change | §5 Self-Verification |
-| Structured code review | §7 Code Review Checklist |
-| When and how to split modules | §8 Component & Module Splitting |
-| Maintain context across sessions | §9 Context & Memory |
-| Prevent hallucinated code | §10 Anti-Hallucination Rules |
-| Web search and MCP tool use | §11 Tool Use Guidelines |
-| Clear definition of done | §12 Definition of Done |
-
-## Compatibility
-
-Stack Kit works with any AI tool that reads markdown files from the repo:
-
-| Tool | Reads From |
-|------|-----------|
-| Claude Code / Claude CLI | `AGENTS.md`, `CLAUDE.md`, `docs/` |
-| GitHub Copilot | `.github/copilot-instructions.md`, `.github/prompts/` |
-| Cursor | `.cursor/rules/00-core.mdc` |
-| OpenClaw | `AGENTS.md`, `docs/` |
-| Windsurf | `AGENTS.md`, `docs/` |
-| Any LLM via manual prompt | Paste from `AGENTS.md` or `docs/` |
-
-## Frontend Design Quality
-
-For frontend profiles (`nextjs`, `react`, `vue`), Stack Kit ships the **`impeccable-frontend-design`** skill candidate — a design-quality workflow based on [pbakaus/impeccable](https://github.com/pbakaus/impeccable) (Apache 2.0, 4.4k ★).
-
-It trains the AI assistant to:
-
-- **Define aesthetic direction first** — commit to a bold tone (brutalist, editorial, luxury, etc.) before writing any code
-- **Avoid the generic AI palette** — no Inter/Roboto, no cyan-on-dark, no purple-to-blue gradients
-- **Apply modern CSS practices** — OKLCH color functions, `clamp()` fluid scales, container queries, `ease-out-quart` motion
-- **Break anti-patterns explicitly** — no card-in-card nesting, no bounce easing, no glassmorphism by default, no modals as first resort
-- **Run the AI Slop Test** before shipping: if someone would immediately say "AI made this", revise
-
-Audit and polish commands available: `/audit`, `/critique`, `/normalize`, `/polish`, `/distill`, `/animate`, `/harden`, `/bolder`, `/quieter`, and more.
-
-See `docs/skill-candidates.md` (skill #5) in each frontend profile for the full step-by-step workflow.
-
-## Contributing
-
-PRs welcome. Please:
-1. Keep the base thin — add to profiles, not base, for stack-specific rules.
-2. Don't add second-layer library opinions (no specific CSS framework, state library, ORM, etc.).
-3. Test the install script: `bash scripts/install.sh /tmp/test-repo <profile>`.
-
-## License
-
-MIT
+- 只有一个事实源：`docs/`
+- `AGENTS.md` 只负责导航，不重复讲一遍文档内容
+- tool adapter 只写它独有的那一点指令
+- 只保留 3 个高频 prompt：plan / implement / review
+- Skills 只记录为候选流程，不预装一堆用不到的东西
