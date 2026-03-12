@@ -1,0 +1,46 @@
+{
+  "_comment": "This is an example MCP configuration for Claude Code. Copy this to .mcp.json at your project root and uncomment the servers you need. Never commit .mcp.json if it contains credentials — add it to .gitignore.",
+  "mcpServers": {
+    "filesystem": {
+      "_comment": "Built-in filesystem access. Adjust allowedDirectories to your project root.",
+      "type": "stdio",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-filesystem",
+        "/path/to/your/project"
+      ]
+    },
+    "github": {
+      "_comment": "GitHub API access: read/write issues, PRs, comments, files. Requires GITHUB_TOKEN env var.",
+      "type": "stdio",
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-github"],
+      "env": {
+        "GITHUB_TOKEN": "${GITHUB_TOKEN}"
+      }
+    },
+    "fetch": {
+      "_comment": "Web fetch / search: lets the AI retrieve URLs and search the web for current documentation.",
+      "type": "stdio",
+      "command": "uvx",
+      "args": ["mcp-server-fetch"]
+    },
+    "memory": {
+      "_comment": "Persistent memory across sessions: useful for long-running projects. Stores key facts in a local knowledge graph.",
+      "type": "stdio",
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-memory"]
+    },
+    "postgres": {
+      "_comment": "Read-only PostgreSQL access. Replace the connection string. Only add when the task requires DB introspection.",
+      "type": "stdio",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-postgres",
+        "postgresql://user:password@localhost/dbname"
+      ]
+    }
+  }
+}

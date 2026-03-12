@@ -1,0 +1,24 @@
+---
+description: Next.js App Router defaults
+globs: ["app/**/*.ts", "app/**/*.tsx", "src/app/**/*.ts", "src/app/**/*.tsx"]
+alwaysApply: false
+---
+
+# Next.js Rules (extends 00-core.mdc)
+
+## Component Model
+- Default to Server Components. Add `"use client"` only for interactive leaf components or browser-only APIs.
+- Keep domain logic in `src/features/`, `src/server/`, or `src/lib/` — not in page or route files.
+- Prefer server-side data fetching. Avoid client-side waterfalls from nested fetches.
+
+## Route Handlers
+- Keep route handlers thin: validate input via schema → call service → return typed response.
+- Do not bury business logic in `route.ts` or `page.tsx`.
+
+## Splitting
+- If a page component exceeds 200 lines, extract data-fetching into server functions and UI into child components.
+- One component per file when reused or exceeds 80 lines.
+
+## Quality
+- Run `npm run lint && npm run typecheck && npm run test && npm run build` after changes.
+- Check `docs/commands.md` for exact commands.

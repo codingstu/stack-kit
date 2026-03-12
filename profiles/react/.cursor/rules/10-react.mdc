@@ -1,0 +1,24 @@
+---
+description: React SPA defaults (Vite + React + TypeScript)
+globs: ["src/**/*.ts", "src/**/*.tsx"]
+alwaysApply: false
+---
+
+# React Rules (extends 00-core.mdc)
+
+## Component Architecture
+- Vite-based React app, not a full-stack framework.
+- Keep render logic pure. Side effects in hooks or dedicated adapters.
+- One component per file when reused or exceeds 80 lines.
+
+## State Management
+- Local state first (`useState`, `useReducer`). Lift only when distant components share data.
+- Shared state libraries (Zustand, Redux) only when prop drilling is unmanageable — record in `docs/decisions.md`.
+
+## Data & Side Effects
+- API calls in `lib/` or feature data modules — never inline in presentation components.
+- Extract custom hooks when logic repeats in 2+ components. Name descriptively (`useOrderStatus`).
+
+## Quality
+- Run `npm run lint && npm run typecheck && npm run test && npm run build` after changes.
+- Use code review checklist in `AGENTS.md` §7 before submitting.

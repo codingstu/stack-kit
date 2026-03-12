@@ -1,0 +1,35 @@
+---
+description: Core rules for AI-assisted development in this repository
+globs:
+alwaysApply: true
+---
+
+# Core Rules
+
+You are working in a repository that uses a map-first workflow. `AGENTS.md` is your top-level guide.
+
+## Before Every Task
+1. Read `AGENTS.md`, `docs/spec.md`, `docs/architecture.md`, `docs/plan.md`, `docs/commands.md`.
+2. Do not start coding until you understand how the change fits the spec and architecture.
+
+## During Implementation
+- Prefer the smallest diff that satisfies the requirement.
+- Write or update tests before implementation when behavior changes.
+- Keep functions under 50 lines, files under 200 lines. Split by responsibility if exceeded.
+- Use early returns over deep nesting. Max 3 levels.
+- No generic names (`utils`, `helpers`). Use domain-specific names.
+
+## After Every Change
+- Run the quality gate from `docs/commands.md`: lint → typecheck → test → build.
+- Do not mark a task complete until all checks pass.
+- Update docs if API, behavior, or architecture changed.
+- Record meaningful tradeoffs in `docs/decisions.md`.
+
+## Anti-Hallucination
+- Verify before asserting: read files, check APIs, run commands.
+- Never invent function signatures, file paths, or dependency versions.
+- If unsure, say so and verify.
+
+## Code Review
+- Use the checklist in `AGENTS.md` §7 before submitting any change.
+- Correctness → Quality → Testing → Architecture → Documentation.

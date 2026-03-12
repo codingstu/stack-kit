@@ -1,0 +1,25 @@
+---
+description: FastAPI service defaults
+globs: ["app/**/*.py", "tests/**/*.py"]
+alwaysApply: false
+---
+
+# FastAPI Rules (extends 00-core.mdc)
+
+## Layer Separation
+- Routes: thin — validate via Pydantic schema → call service → return response model. No business logic.
+- Services: pure business logic. No DB imports, no HTTP imports.
+- Repositories: data access only. Behind interfaces for testability.
+
+## Dependency Injection
+- Use `Depends()` for auth, DB sessions, config, rate limiting.
+- Config via `pydantic-settings` in `core/config.py`.
+
+## Async
+- `async def` for I/O-bound work (DB, HTTP, files).
+- Do NOT wrap CPU-heavy work in async. Use `run_in_executor` or task queue.
+
+## Quality
+- Run `ruff check . && ruff format --check . && mypy app tests && pytest` after changes.
+- All route functions return explicit Pydantic response models — no untyped dicts.
+- Use code review checklist in `AGENTS.md` §7 before submitting.

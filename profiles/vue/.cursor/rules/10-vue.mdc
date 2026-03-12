@@ -1,0 +1,24 @@
+---
+description: Vue 3 + Vite + Composition API defaults
+globs: ["src/**/*.vue", "src/**/*.ts"]
+alwaysApply: false
+---
+
+# Vue Rules (extends 00-core.mdc)
+
+## Component Architecture
+- Composition API with `<script setup lang="ts">` by default.
+- Views: page-level composition. Components: reusable UI. Composables: shared logic.
+- One component per `.vue` file. Split if > 200 lines.
+
+## State Management
+- Component-local `ref()` / `reactive()` first.
+- Composables for shared logic. Pinia only for genuinely shared distant state — record in `docs/decisions.md`.
+
+## Data & Services
+- API calls in `services/` — never inline in views or stores.
+- Use `defineProps<T>()` and `defineEmits<T>()` with explicit TypeScript types.
+
+## Quality
+- Run `npm run lint && npm run typecheck && npm run test && npm run build` after changes.
+- Use code review checklist in `AGENTS.md` §7 before submitting.

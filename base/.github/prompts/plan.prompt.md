@@ -1,0 +1,55 @@
+---
+mode: agent
+description: Plan and break down a task into actionable subtasks
+---
+
+# Plan
+
+You are helping plan implementation work for this project.
+
+## Context
+Read these files first:
+- `docs/spec.md`
+- `docs/architecture.md`
+- `docs/plan.md`
+- `docs/commands.md`
+
+## Your Job
+
+Given a task or feature request:
+
+1. **Clarify scope** — restate the task in one sentence. Identify what's in scope and out of scope.
+2. **Break down** — list 3–8 concrete subtasks, each:
+   - Completable in one commit
+   - Independently verifiable (has a clear "done" check)
+   - Ordered by dependency (label independent ones as parallelizable)
+3. **Identify risks** — what could go wrong? What assumptions are being made?
+4. **List affected files** — which existing files will be changed? Which new files created?
+5. **Propose verification** — for each subtask, what command or check confirms it's done?
+
+## Output Format
+
+```markdown
+## Task: <one-sentence summary>
+
+### Subtasks
+1. [ ] <subtask> — verify: <check>
+2. [ ] <subtask> — verify: <check>
+...
+
+### Risks
+- ...
+
+### Affected Files
+- Changed: ...
+- New: ...
+
+### Open Questions
+- ...
+```
+
+## Rules
+- Do not start implementing — this is planning only.
+- Prefer small subtasks over large ones.
+- If a subtask is too big, split it further.
+- Reference `docs/architecture.md` for where new code should live.

@@ -1,0 +1,26 @@
+---
+description: General Python project defaults (library / CLI / worker)
+globs: ["src/**/*.py", "tests/**/*.py"]
+alwaysApply: false
+---
+
+# Python Rules (extends 00-core.mdc)
+
+## Package Structure
+- All importable code under `src/<project_name>/`. Use `src/` layout.
+- `pyproject.toml` as single config file. `[build-system]` must always be present.
+- `.venv` in project root for virtual environment.
+
+## Separation of Concerns
+- Core: pure domain logic — no I/O, no framework imports.
+- Services: orchestrate core + adapters.
+- Adapters: all I/O (filesystem, network, DB) — behind interfaces.
+
+## Code Quality
+- Explicit type hints on all public function signatures.
+- Prefer small functions. No mutable module-level state.
+- Use `dataclasses` or `TypedDict` for structured data — avoid raw dicts.
+
+## Quality Gate
+- Run `ruff check . && ruff format --check . && mypy src tests && pytest` after changes.
+- Use code review checklist in `AGENTS.md` §7 before submitting.
