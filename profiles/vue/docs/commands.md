@@ -71,3 +71,54 @@ npm run lint && npm run typecheck && npm run test && npm run build
 - `create-vue` generates Vite config, ESLint config, and optional Router/Pinia setup.
 - Add `@vue/test-utils` as dev dependency for component testing.
 - For E2E, install `@playwright/test` or `cypress` and add a `test:e2e` script.
+
+
+---
+
+<details>
+<summary>🌐 中文翻译 / Chinese Translation</summary>
+
+## 命令参考 — Vue Profile
+
+### 脚手架
+```bash
+npm create vue@latest
+```
+推荐选项：TypeScript **yes**，ESLint **yes**，Vitest **yes**
+
+### 引导安装
+```bash
+npm install
+```
+
+### 开发
+```bash
+npm run dev
+```
+
+### Lint
+```bash
+npm run lint
+```
+
+### 类型检查
+```bash
+npm run typecheck
+```
+
+### 测试
+```bash
+npm run test
+```
+
+### 构建
+```bash
+npm run build
+```
+
+### 质量门控（提交前运行全部）
+```bash
+npm run lint && npm run typecheck && npm run test && npm run build
+```
+
+</details>

@@ -33,3 +33,46 @@ You are working in a repository that uses a map-first workflow. `AGENTS.md` is y
 ## Code Review
 - Use the checklist in `AGENTS.md` §7 before submitting any change.
 - Correctness → Quality → Testing → Architecture → Documentation.
+
+
+---
+
+<details>
+<summary>🌐 中文翻译 / Chinese Translation</summary>
+
+## 核心规则
+
+你正在一个使用先读地图工作流的仓库中工作。`AGENTS.md` 是你的顶层指南。
+
+### 每次任务前
+
+1. 阅读 `AGENTS.md`、`docs/spec.md`、`docs/architecture.md`、`docs/plan.md`、`docs/commands.md`。
+2. 在理解变更如何符合规格和架构之前，不要开始编码。
+
+### 实现期间
+
+- 优先选择满足需求的最小 diff。
+- 行为变更时先写或更新测试。
+- 函数不超过 50 行，文件不超过 200 行。超出时按职责拆分。
+- 使用早返回而非深层嵌套（最多 3 层）。
+- 不用通用名称（`utils`、`helpers`）。使用领域专用名称。
+
+### 每次变更后
+
+- 运行 `docs/commands.md` 中的质量门控：lint → 类型检查 → 测试 → 构建。
+- 所有检查通过前不标记任务为完成。
+- 如果 API、行为或架构发生变化，更新文档。
+- 在 `docs/decisions.md` 中记录有意义的权衡。
+
+### 反幻觉
+
+- 断言前先验证：读文件、检查 API、运行命令。
+- 不要捏造函数签名、文件路径或依赖版本。
+- 不确定时，说出来并验证。
+
+### 代码审查
+
+- 提交任何变更前，使用 `AGENTS.md` §7 中的清单。
+- 正确性 → 质量 → 测试 → 架构 → 文档。
+
+</details>

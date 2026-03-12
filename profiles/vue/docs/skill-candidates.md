@@ -64,3 +64,40 @@ Extends the universal candidates in the base `docs/skill-candidates.md`.
 - **Output:** Distinctive Vue component/view that avoids generic AI aesthetics.
 - **Verification:** AI Slop Test passes. `typecheck` + `test` green. No `/audit` critical issues.
 - **Reference:** [pbakaus/impeccable](https://github.com/pbakaus/impeccable)
+
+
+---
+
+<details>
+<summary>🌐 中文翻译 / Chinese Translation</summary>
+
+## Skill 候选清单 — Vue Profile
+
+扩展 base `docs/skill-candidates.md` 中的通用候选。
+
+**1. view-scaffold（视图脚手架）**
+- **触发：** 根据简短规格添加新的路由视图。
+- **步骤：** 在 `views/` 下创建带 `<script setup lang="ts">` 的 `.vue` 文件 → 添加路由注册（如使用 Router）→ 添加加载和错误状态处理 → 添加骨架测试。
+- **输出：** 可编译的视图，带路由、加载/错误状态和骨架测试。
+
+**2. composable-extract（Composable 提取）**
+- **触发：** 2+ 个组件中有重复逻辑，或组件混杂了不同关注点。
+- **步骤：** 识别共享响应式逻辑和接口 → 创建带显式类型的 Composable（`use<Name>`）→ 编写单元测试 → 替换源组件中的内联逻辑 → 验证现有测试仍通过。
+- **输出：** 提取的 Composable（带测试）和重构后的消费者。
+
+**3. store-scaffold（Store 脚手架）**
+- **触发：** 远距离组件间需要新的共享状态（Pinia）。
+- **步骤：** 在 `stores/` 下创建带类型化状态、actions、getters 的 Pinia store → Store 保持精简（actions 调用 services，getters 派生状态）→ 编写单元测试 → 集成到消费者组件。
+- **输出：** Store（带测试），集成到消费者中。
+
+**4. pr-summary（PR 摘要）**
+- **触发：** 生成 UI diff 摘要。
+- **步骤：** 总结变更的视图和组件 → 注明 store 或 composable 影响 → 列出截图需求和手动 QA 步骤。
+
+**5. impeccable-frontend-design（精良前端设计）**
+- **触发：** 新 Vue 视图/组件、重设计，或发布前 UI 审查。
+- **步骤：** 在 `<style>` 规划阶段定义美学方向 → 流式 `clamp()` 排版 → OKLCH CSS 自定义属性色彩体系 → 间距节奏 → Vue `<Transition>` 动效 → `v-show`/`v-if` 渐进式展开 → AI 俗气测试 → `/audit` 无障碍检查。
+- **输出：** 避免通用 AI 美学的独特 Vue 组件/视图。
+- **参考：** [pbakaus/impeccable](https://github.com/pbakaus/impeccable)
+
+</details>

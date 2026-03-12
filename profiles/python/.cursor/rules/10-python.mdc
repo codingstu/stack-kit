@@ -24,3 +24,36 @@ alwaysApply: false
 ## Quality Gate
 - Run `ruff check . && ruff format --check . && mypy src tests && pytest` after changes.
 - Use code review checklist in `AGENTS.md` §7 before submitting.
+
+
+---
+
+<details>
+<summary>🌐 中文翻译 / Chinese Translation</summary>
+
+## Python 规则（扩展 00-core.mdc）
+
+### 包结构
+
+- 所有可导入代码放在 `src/<project_name>/` 下。使用 `src/` 布局。
+- `pyproject.toml` 作为唯一配置文件。`[build-system]` 必须始终存在。
+- `.venv` 放在项目根目录作为虚拟环境。
+
+### 关注点分离
+
+- Core：纯领域逻辑——无 I/O，无框架导入。
+- Services：协调 Core + Adapters。
+- Adapters：所有 I/O（文件系统、网络、DB）——在接口后面。
+
+### 代码质量
+
+- 所有公共函数签名有显式类型提示。
+- 优先使用小函数。无可变模块级状态。
+- 结构化数据用 `dataclasses` 或 `TypedDict`——避免使用原始字典。
+
+### 质量门控
+
+- 变更后运行 `ruff check . && ruff format --check . && mypy src tests && pytest`。
+- 提交前使用 `AGENTS.md` §7 中的代码审查清单。
+
+</details>

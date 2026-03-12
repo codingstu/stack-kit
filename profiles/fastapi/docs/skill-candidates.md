@@ -52,3 +52,35 @@ Extends the universal candidates in the base `docs/skill-candidates.md`.
   5. Verify install works cleanly.
 - **Output:** Updated `pyproject.toml`, decision record.
 - **Verification:** `pip install -e .` succeeds, `pytest` passes.
+
+
+---
+
+<details>
+<summary>🌐 中文翻译 / Chinese Translation</summary>
+
+## Skill 候选清单 — FastAPI Profile
+
+扩展 base `docs/skill-candidates.md` 中的通用候选。
+
+**1. endpoint-scaffold（端点脚手架）**
+- **触发：** 根据简短契约添加 CRUD 或查询端点。
+- **步骤：** 在 `schemas/` 创建 Pydantic Schema（请求+响应）→ 在 `services/` 创建 Service 函数 → 在 `repositories/` 创建 Repository 函数 → 在 `api/routes/` 创建路由连接各层 → 在 `main.py` 注册路由 → 添加 `TestClient` 路由测试。
+- **输出：** 可编译的端点，带 schema、service、repository 和通过的测试。
+
+**2. api-test-repair（API 测试修复）**
+- **触发：** API 测试失败。
+- **步骤：** 读取失败测试并追踪到根因 → 分类（回归/schema 变化/数据问题/环境问题）→ 修复路由/schema/service 或测试 → 确认全部通过 → 运行质量门控。
+- **输出：** 所有测试绿色，根因摘要。
+
+**3. schema-change-review（Schema 变更审查）**
+- **触发：** Pydantic 请求或响应模型发生变更。
+- **步骤：** 识别所有使用该 Schema 的路由 → 检查客户端影响（是否破坏性变更）→ 更新所有受影响路由的测试 → 如破坏性变更则添加迁移说明 → 运行质量门控。
+- **输出：** 影响分析、更新的路由和测试、迁移说明。
+
+**4. dependency-audit（依赖审计）**
+- **触发：** 新增依赖或变更现有依赖版本。
+- **步骤：** 检查依赖是否积极维护 → 检查许可证兼容性 → 添加到 `pyproject.toml` 正确分组 → 在 `docs/decisions.md` 记录理由 → 验证安装无误。
+- **输出：** 更新的 `pyproject.toml`，决策记录。
+
+</details>

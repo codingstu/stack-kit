@@ -22,3 +22,34 @@ alwaysApply: false
 ## Quality
 - Run `npm run lint && npm run typecheck && npm run test && npm run build` after changes.
 - Check `docs/commands.md` for exact commands.
+
+
+---
+
+<details>
+<summary>🌐 中文翻译 / Chinese Translation</summary>
+
+## Next.js 规则（扩展 00-core.mdc）
+
+### 组件模型
+
+- 默认使用 Server Components。仅在需要交互的叶子组件或仅浏览器的 API 时添加 `"use client"`。
+- 将领域逻辑保持在 `src/features/`、`src/server/` 或 `src/lib/` 中——不要放在页面或路由文件中。
+- 优先服务端数据获取。避免嵌套获取导致的客户端瀑布请求。
+
+### 路由处理器
+
+- 路由处理器保持精简：通过 Schema 验证输入 → 调用 Service → 返回类型化响应。
+- 不要将业务逻辑埋在 `route.ts` 或 `page.tsx` 中。
+
+### 拆分
+
+- 如果页面组件超过 200 行，将数据获取提取到 Server Functions，将 UI 提取到子组件。
+- 复用或超过 80 行的组件，每个文件放一个组件。
+
+### 质量
+
+- 变更后运行 `npm run lint && npm run typecheck && npm run test && npm run build`。
+- 查看 `docs/commands.md` 中的精确命令。
+
+</details>

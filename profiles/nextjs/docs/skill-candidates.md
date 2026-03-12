@@ -66,3 +66,40 @@ Extends the universal candidates in the base `docs/skill-candidates.md`.
 - **Output:** Production-grade Next.js page/component with distinctive visual identity.
 - **Verification:** AI Slop Test passes. `typecheck` + `test` green. No `/audit` critical issues.
 - **Reference:** [pbakaus/impeccable](https://github.com/pbakaus/impeccable)
+
+
+---
+
+<details>
+<summary>🌐 中文翻译 / Chinese Translation</summary>
+
+## Skill 候选清单 — Next.js Profile
+
+扩展 base `docs/skill-candidates.md` 中的通用候选。
+
+**1. route-scaffold（路由脚手架）**
+- **触发：** 根据简短规格添加新的 app 路由或路由分组。
+- **步骤：** 按架构约定在 `app/` 下创建目录 → 添加 `page.tsx` 默认服务端组件 → 添加 `loading.tsx`/`error.tsx` → 添加 metadata 导出 → 添加骨架测试。
+- **输出：** 可编译的路由，带加载/错误状态和一个通过的测试。
+
+**2. api-contract-sync（API 契约同步）**
+- **触发：** 路由处理器契约（请求/响应格式）发生变更。
+- **步骤：** 更新 zod/schema 定义 → 更新路由处理器 → 更新客户端类型和 fetch 调用 → 更新测试 → 运行质量门控。
+- **输出：** Schema、处理器、客户端类型、测试全部同步。
+
+**3. component-extract（组件提取）**
+- **触发：** 页面或特性组件超过 200 行或混杂了不同关注点。
+- **步骤：** 识别不同关注点（数据、逻辑、展示） → 提取到独立文件 → 更新导入 → 验证行为无变化。
+- **输出：** 更小、聚焦的文件，行为保持。
+
+**4. pr-summary（PR 摘要）**
+- **触发：** 从 diff 生成 PR 描述。
+- **步骤：** 总结变更内容 → 列出受影响路由、组件、API → 注明 server/client 边界变化 → 列出测试和截图需求 → 评估上线风险。
+
+**5. impeccable-frontend-design（精良前端设计）**
+- **触发：** 新页面路由、营销区块、仪表盘 UI，或发布前设计审查。
+- **步骤：** 定义美学方向 → 流式排版（`clamp()`、`next/font`）→ OKLCH 色彩体系 → 间距节奏 → CSS/Framer Motion 动效 → 尊重 `prefers-reduced-motion` → AI 俗气测试 → `/audit` 无障碍检查。
+- **输出：** 具有独特视觉特征的 Next.js 页面/组件。
+- **参考：** [pbakaus/impeccable](https://github.com/pbakaus/impeccable)
+
+</details>

@@ -22,3 +22,34 @@ alwaysApply: false
 ## Quality
 - Run `npm run lint && npm run typecheck && npm run test && npm run build` after changes.
 - Use code review checklist in `AGENTS.md` §7 before submitting.
+
+
+---
+
+<details>
+<summary>🌐 中文翻译 / Chinese Translation</summary>
+
+## Vue 规则（扩展 00-core.mdc）
+
+### 组件架构
+
+- 默认使用带 `<script setup lang="ts">` 的 Composition API。
+- Views：页面级组合。Components：可复用 UI。Composables：共享逻辑。
+- 每个 `.vue` 文件放一个组件。超过 200 行时拆分。
+
+### 状态管理
+
+- 优先使用组件本地的 `ref()` / `reactive()`。
+- 共享逻辑用 Composables。仅在真正的远距离共享状态时才用 Pinia——记录在 `docs/decisions.md` 中。
+
+### 数据与服务
+
+- API 调用放在 `services/` 中——永远不要内联在 Views 或 stores 中。
+- 使用带显式 TypeScript 类型的 `defineProps<T>()` 和 `defineEmits<T>()`。
+
+### 质量
+
+- 变更后运行 `npm run lint && npm run typecheck && npm run test && npm run build`。
+- 提交前使用 `AGENTS.md` §7 中的代码审查清单。
+
+</details>

@@ -79,3 +79,91 @@ Ready to merge / Needs changes / Needs discussion
 - For each issue, suggest a concrete fix.
 - Do not rubber-stamp. Find at least one improvement opportunity.
 - Do not flag style preferences that are not in the project's documented standards.
+
+
+---
+
+<details>
+<summary>🌐 中文翻译 / Chinese Translation</summary>
+
+## Review（代码审查）
+
+你正在对这个项目进行代码审查。
+
+### 上下文
+
+先阅读这些文件：
+- `AGENTS.md`（尤其是 §7 代码审查清单、§8 组件拆分）
+- `docs/architecture.md`
+- `docs/spec.md`
+
+### 输入
+
+你将收到以下之一：
+- git diff
+- 已修改文件列表
+- 已实现内容的描述
+
+### 审查流程
+
+遍历 `AGENTS.md` §7 中清单的每一部分：
+
+**1. 正确性**
+- 变更是否符合规格或任务描述？
+- 边界情况和错误路径是否已处理？
+- 是否有对现有行为的回归？
+
+**2. 质量**
+- 函数和文件是否合理地小且职责单一？
+- 命名是否清晰且领域专用？
+- 是否有应该被提取的代码重复？
+- 是否有遗留的死代码、调试日志或 TODO hack？
+
+**3. 测试**
+- 新/变更的行为是否有测试覆盖？
+- 所有测试是否通过？
+- 测试名称是否描述行为而非实现？
+- 测试是否尽可能使用真实代码（而非过度 Mock）？
+
+**4. 架构**
+- 变更是否遵循 `docs/architecture.md` 中的模块边界？
+- 业务逻辑是否没有混入 UI/路由入口文件？
+- 基础设施关注点（DB、API）是否保持在边界处？
+- 依赖方向是否向内流动？
+
+**5. 文档**
+- 如果 API、行为或架构发生变化，文档是否已更新？
+- 如果做了有意义的权衡，`docs/decisions.md` 是否已更新？
+- 公共接口是否有清晰的类型或文档字符串？
+
+### 输出格式
+
+```markdown
+## 审查摘要
+
+### 优点
+- ...
+
+### 问题
+
+#### 严重（合并前必须修复）
+- [ ] ...
+
+#### 重要（应该修复）
+- [ ] ...
+
+#### 次要（建议修复）
+- [ ] ...
+
+### 评估
+准备合并 / 需要修改 / 需要讨论
+```
+
+### 规则
+
+- 具体说明——指向具体文件和行。
+- 对每个问题，提供具体的修复建议。
+- 不要走过场。至少找一个改进机会。
+- 不要标记项目文档标准之外的风格偏好。
+
+</details>

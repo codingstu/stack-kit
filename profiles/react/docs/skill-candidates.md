@@ -65,3 +65,40 @@ Extends the universal candidates in the base `docs/skill-candidates.md`.
 - **Output:** Distinctive React component that doesn't resemble generic AI output.
 - **Verification:** AI Slop Test passes (no generic fingerprints). `typecheck` + `test` green.
 - **Reference:** [pbakaus/impeccable](https://github.com/pbakaus/impeccable)
+
+
+---
+
+<details>
+<summary>🌐 中文翻译 / Chinese Translation</summary>
+
+## Skill 候选清单 — React Profile
+
+扩展 base `docs/skill-candidates.md` 中的通用候选。
+
+**1. component-scaffold（组件脚手架）**
+- **触发：** 根据简短描述创建新的特性或 UI 组件。
+- **步骤：** 创建带类型化 Props 的组件文件 → 创建共置测试文件（至少一个渲染测试）→ 如需创建共置类型文件 → 从特性或组件索引导出。
+- **输出：** 可编译的组件，带一个通过的测试。
+
+**2. hook-extract（Hook 提取）**
+- **触发：** 2+ 个组件中有重复的副作用逻辑。
+- **步骤：** 识别共享逻辑和接口 → 创建带显式类型的自定义 hook → 为 hook 编写独立测试 → 用 hook 替换源组件中的内联逻辑 → 验证现有测试仍通过。
+- **输出：** 提取的 hook（带测试）和重构后的消费者。
+
+**3. feature-split（特性拆分）**
+- **触发：** 特性模块超过 300 行或混杂了展示与数据逻辑。
+- **步骤：** 识别：展示组件、数据 hooks、领域逻辑、类型 → 拆分到特性文件夹内独立文件 → 更新导入/导出 → 验证行为无变化。
+- **输出：** 特性内更小、聚焦的文件。
+
+**4. pr-summary（PR 摘要）**
+- **触发：** 从 diff 生成 PR 描述。
+- **步骤：** 总结用户可见变更 → 列出受影响组件和路由 → 注明状态管理或数据流变更 → 列出截图需求和手动 QA 步骤。
+
+**5. impeccable-frontend-design（精良前端设计）**
+- **触发：** 新 React 组件/页面、重设计，或发布前 UI 审查。
+- **步骤：** 定义美学方向（避免 Inter 字体、灰底灰字、蓝色 CTA）→ 流式排版（`clamp()`、独特字体对）→ OKLCH 色板 → 间距节奏 → Framer Motion 动效 → 乐观更新 → AI 俗气测试 → `/audit` 无障碍检查。
+- **输出：** 不像通用 AI 输出的独特 React 组件。
+- **参考：** [pbakaus/impeccable](https://github.com/pbakaus/impeccable)
+
+</details>

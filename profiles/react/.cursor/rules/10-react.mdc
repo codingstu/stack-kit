@@ -22,3 +22,34 @@ alwaysApply: false
 ## Quality
 - Run `npm run lint && npm run typecheck && npm run test && npm run build` after changes.
 - Use code review checklist in `AGENTS.md` §7 before submitting.
+
+
+---
+
+<details>
+<summary>🌐 中文翻译 / Chinese Translation</summary>
+
+## React 规则（扩展 00-core.mdc）
+
+### 组件架构
+
+- 基于 Vite 的 React 应用，不是全栈框架。
+- 保持渲染逻辑纯粹。副作用放在 hooks 或专用适配器中。
+- 复用或超过 80 行的组件，每个文件放一个组件。
+
+### 状态管理
+
+- 优先使用本地状态（`useState`、`useReducer`）。仅在远距离组件共享数据时才提升。
+- 共享状态库（Zustand、Redux）仅在 props 穿透不可管理时使用——记录在 `docs/decisions.md` 中。
+
+### 数据与副作用
+
+- API 调用放在 `lib/` 或功能数据模块中——永远不要内联在展示组件中。
+- 当逻辑在 2+ 个组件中重复时，提取自定义 hooks。描述性地命名（`useOrderStatus`）。
+
+### 质量
+
+- 变更后运行 `npm run lint && npm run typecheck && npm run test && npm run build`。
+- 提交前使用 `AGENTS.md` §7 中的代码审查清单。
+
+</details>

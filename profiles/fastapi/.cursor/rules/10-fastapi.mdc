@@ -23,3 +23,35 @@ alwaysApply: false
 - Run `ruff check . && ruff format --check . && mypy app tests && pytest` after changes.
 - All route functions return explicit Pydantic response models — no untyped dicts.
 - Use code review checklist in `AGENTS.md` §7 before submitting.
+
+
+---
+
+<details>
+<summary>🌐 中文翻译 / Chinese Translation</summary>
+
+## FastAPI 规则（扩展 00-core.mdc）
+
+### 分层职责
+
+- Routes（路由）：精简——通过 Pydantic Schema 验证 → 调用 Service → 返回响应模型。无业务逻辑。
+- Services（服务）：纯业务逻辑。无 DB 导入，无 HTTP 导入。
+- Repositories（仓储）：仅数据访问。在接口后面以便测试。
+
+### 依赖注入
+
+- 用 `Depends()` 处理认证、DB Session、配置、限流。
+- 通过 `pydantic-settings` 在 `core/config.py` 中进行配置。
+
+### 异步
+
+- I/O 密集型工作（DB、HTTP、文件）使用 `async def`。
+- 不要将 CPU 密集型工作包装在 async 中。使用 `run_in_executor` 或任务队列。
+
+### 质量
+
+- 变更后运行 `ruff check . && ruff format --check . && mypy app tests && pytest`。
+- 所有路由函数返回显式 Pydantic 响应模型——不返回未类型化的字典。
+- 提交前使用 `AGENTS.md` §7 中的代码审查清单。
+
+</details>
