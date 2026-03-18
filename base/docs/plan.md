@@ -1,37 +1,31 @@
-# Current Plan / 当前计划
+# Current Plan
 
-## Milestone / 里程碑
+## Milestone
 <!--
-EN: What is the current milestone or sprint goal?
-中文：当前里程碑或冲刺目标是什么？
+What is the current milestone or sprint goal?
 -->
 
-## Done / 已完成
+## Done
 <!--
-EN: What has been completed? Move items here from "Now" when finished.
-中文：已完成的内容。从"进行中"完成后移到这里。
+What has been completed? Move items here from "Now" when finished.
 -->
 
-## Now / 进行中
+## Now
 <!--
-EN: What is actively being worked on? Keep this list short (1–3 items).
-中文：正在进行中的工作。保持简短（1–3 项）。
+What is actively being worked on? Keep this list short (1–3 items).
 -->
 
-## Next / 下一步
+## Next
 <!--
-EN: What comes immediately after the current work?
-中文：当前工作完成后紧接着要做什么？
+What comes immediately after the current work?
 -->
 
-## Backlog / 待办积压
+## Backlog
 <!--
-EN: Lower priority items that are scoped but not yet scheduled.
-中文：已规划但尚未排期的低优先级任务。
+Lower priority items that are scoped but not yet scheduled.
 -->
 
-## Risks & Blockers / 风险与阻塞
+## Risks & Blockers
 <!--
-EN: What could block progress? What needs external input?
-中文：什么可能阻碍进度？哪些事情需要外部输入？
+What could block progress? What needs external input?
 -->

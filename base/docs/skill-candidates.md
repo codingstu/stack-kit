@@ -14,6 +14,18 @@ Before promoting, confirm:
 
 ---
 
+## Standard Execution Model
+
+Every Skill should start by making the execution shape explicit.
+
+1. Ask the user to choose **minimal solution** or **complete solution**.
+2. Ask the user to choose **module-by-module** or **task-by-task** execution.
+3. Keep each batch small enough to review, verify, document, and commit independently.
+4. Update the relevant `docs/` files immediately when behavior, API, architecture, or workflow expectations change.
+5. End each completed batch at a commit-ready boundary with one concern per commit.
+
+---
+
 ## Candidate Template
 
 ```
@@ -21,12 +33,16 @@ Before promoting, confirm:
 
 **Trigger:** When does this workflow start?
 **Inputs:** What information is needed?
-**Steps:**
+**Execution Options:**
+- Solution scope: minimal / complete
+- Delivery shape: module-by-module / task-by-task
+**Batched Steps:**
 1. ...
 2. ...
 3. ...
 **Output:** What is produced?
 **Verification:** How do you know it worked?
+**Definition of Done:** What must be true before the batch is complete?
 **Automation potential:** Script / Prompt / Manual checklist
 ```
 
@@ -34,89 +50,130 @@ Before promoting, confirm:
 
 ## Universal Candidates
 
-These are stack-agnostic workflows that apply to most projects:
+These are stack-agnostic workflows that apply to most projects.
 
 ### 1. feature-scaffold
-- **Trigger:** New feature requested with a short spec or user story.
-- **Inputs:** Feature name, spec description, target module.
-- **Steps:**
-  1. Create folder structure per `docs/architecture.md`.
-  2. Add placeholder files (component/service/route + test + types).
-  3. Register in routing / exports / index.
-  4. Add skeleton test.
-- **Output:** Compilable scaffold with one passing skeleton test.
-- **Verification:** `typecheck` + `test` pass.
+- **Trigger:** A new feature is requested with a short spec or user story.
+- **Inputs:** Feature name, spec description, target module, selected execution options.
+- **Execution Options:**
+  - Solution scope: minimal scaffold for one reviewable slice / complete scaffold for the full requested feature surface.
+  - Delivery shape: module-by-module / task-by-task.
+- **Batched Steps:**
+  1. Confirm the requested scope and execution shape.
+  2. Create the folder structure described by `docs/architecture.md`.
+  3. Add placeholder files for the smallest reviewable batch (component, service, route, test, types as needed).
+  4. Register the new surface in routing, exports, or index files.
+  5. Add a skeleton test.
+  6. Update `docs/plan.md` and any affected `docs/` files before closing the batch.
+  7. Prepare the batch for a single-purpose commit.
+- **Output:** A compilable scaffold with one passing skeleton test and matching docs updates.
+- **Verification:** `typecheck` and `test` pass for the scaffolded batch.
+- **Definition of Done:** The scaffold compiles, the batch is documented, and the diff is small enough for its own commit.
 
 ### 2. test-diagnose-repair
 - **Trigger:** One or more tests are failing.
-- **Inputs:** Failing test names / file paths, error output.
-- **Steps:**
+- **Inputs:** Failing test names or file paths, error output, selected execution options.
+- **Execution Options:**
+  - Solution scope: minimal fix for the confirmed root cause / complete fix including all directly related regressions.
+  - Delivery shape: module-by-module / task-by-task.
+- **Batched Steps:**
   1. Read the failing test and its error message.
-  2. Identify root cause (regression, environment, flaky, spec change).
-  3. Write a fix plan (test change, code change, or both).
-  4. Apply fix.
-  5. Run tests — confirm green.
-  6. Run full quality gate.
-- **Output:** All tests green, summary of root cause and fix.
-- **Verification:** Full quality gate passes.
+  2. Identify the root cause (regression, environment, flaky test, or spec change).
+  3. Write a fix plan for the current batch.
+  4. Apply the smallest correct fix.
+  5. Run the affected tests and confirm green.
+  6. Run the quality gate required for the batch.
+  7. Update `docs/plan.md` and any impacted docs before closing the batch.
+  8. Prepare a commit that contains only the reviewed repair.
+- **Output:** Green tests plus a summary of the root cause and applied fix.
+- **Verification:** The affected tests and the required quality gate pass.
+- **Definition of Done:** The confirmed failure is resolved, docs are synced, and the repair is commit-ready.
 
 ### 3. code-review
-- **Trigger:** Before submitting a PR or after completing a task.
-- **Inputs:** Diff or list of changed files.
-- **Steps:**
-  1. Walk through AGENTS.md §7 checklist (correctness, quality, testing, architecture, docs).
-  2. Flag issues as Critical / Important / Minor.
-  3. For each Critical/Important issue, provide a specific fix suggestion.
-  4. Summarize: strengths, issues, overall assessment.
-- **Output:** Structured review with actionable feedback.
-- **Verification:** All Critical issues resolved before merge.
+- **Trigger:** Review is needed before a PR or after completing a task.
+- **Inputs:** Diff or list of changed files, related spec or task description.
+- **Execution Options:**
+  - Solution scope: minimal review focused on the current batch / complete review across all changed batches.
+  - Delivery shape: module-by-module / task-by-task.
+- **Batched Steps:**
+  1. Walk through `AGENTS.md` §7 (correctness, quality, testing, architecture, docs, git discipline).
+  2. Flag issues as Critical, Important, or Minor.
+  3. For each Critical or Important issue, propose a concrete fix.
+  4. Check whether docs were updated in the same batch.
+  5. Check whether the batch is small enough for one concern per commit.
+  6. Summarize strengths, issues, and the overall assessment.
+- **Output:** A structured review with actionable feedback.
+- **Verification:** All Critical issues are resolved before merge.
+- **Definition of Done:** The review covers code, docs, and commit discipline for the intended scope.
 
 ### 4. pr-summary
-- **Trigger:** Generate PR description from a diff.
-- **Inputs:** Git diff, related spec or task description.
-- **Steps:**
+- **Trigger:** A PR description needs to be generated from a diff.
+- **Inputs:** Git diff, related spec or task description, selected execution options.
+- **Execution Options:**
+  - Solution scope: minimal summary for the current batch / complete summary for the full change set.
+  - Delivery shape: module-by-module / task-by-task.
+- **Batched Steps:**
   1. Summarize what changed and why.
-  2. List affected modules / routes / APIs.
-  3. Note any breaking changes or migration steps.
-  4. List testing done and testing needed.
-  5. Assess rollout risk (low / medium / high).
-- **Output:** Markdown PR description ready to paste.
+  2. List the affected modules, routes, or APIs.
+  3. Note breaking changes or migration steps.
+  4. List testing completed and testing still needed.
+  5. Describe doc updates shipped with the batch.
+  6. Assess rollout risk (low, medium, high).
+- **Output:** A Markdown PR description ready to paste.
 - **Verification:** Human review.
+- **Definition of Done:** The summary accurately describes the reviewed scope and its verification status.
 
 ### 5. decision-record
-- **Trigger:** A meaningful technical tradeoff was made.
+- **Trigger:** A meaningful technical tradeoff has been made.
 - **Inputs:** Context, options considered, chosen option.
-- **Steps:**
+- **Execution Options:**
+  - Solution scope: minimal entry for the immediate decision / complete entry with broader surrounding rationale.
+  - Delivery shape: module-by-module / task-by-task, matching the work that triggered the decision.
+- **Batched Steps:**
   1. Use the template in `docs/decisions.md`.
-  2. Fill context, decision, consequences, alternatives.
+  2. Fill context, decision, consequences, and alternatives.
   3. Add date and status.
-- **Output:** New entry in `docs/decisions.md`.
-- **Verification:** Entry is complete and rationale is clear.
+  4. Link the decision to the current implementation batch when relevant.
+  5. Ensure the decision record lands in the same batch as the related change.
+- **Output:** A new entry in `docs/decisions.md`.
+- **Verification:** The entry is complete and the rationale is clear.
+- **Definition of Done:** The tradeoff is documented in the same reviewable batch as the related implementation.
 
 ### 6. web-search-verify
-- **Trigger:** Uncertain about a library version, API signature, CLI flag, or official recommendation.
-- **Inputs:** Package name / API name / topic, current assumption.
-- **Steps:**
-  1. Search the official docs or changelog for the relevant version.
-  2. Compare with what's in `package.json` / `pyproject.toml`.
-  3. If a discrepancy found: propose the correct usage.
-  4. If up to date: proceed with original plan.
-- **Output:** Verified fact with source URL, or corrected approach.
-- **Verification:** Fact is sourced from official documentation, not from memory.
+- **Trigger:** A library version, API signature, CLI flag, or official recommendation is uncertain.
+- **Inputs:** Package name, API name, topic, current assumption.
+- **Execution Options:**
+  - Solution scope: verify only the blocking external fact / verify all closely related external facts needed for the chosen batch.
+  - Delivery shape: task-by-task by default; module-by-module only when the uncertainty maps cleanly to a module.
+- **Batched Steps:**
+  1. Start with repository files and local docs.
+  2. If uncertainty remains, ask the user to choose local-only analysis, search only when needed, or an already configured search tool.
+  3. Search the official docs or changelog for the specific question.
+  4. Compare the result with `package.json`, `pyproject.toml`, or local source.
+  5. If a discrepancy is found, propose the corrected usage.
+  6. Record any resulting workflow or architecture change in the relevant docs.
+- **Output:** A verified fact with a source URL, or a corrected approach.
+- **Verification:** The fact comes from official documentation rather than memory.
+- **Definition of Done:** The external fact is resolved, the user-approved search scope was respected, and any resulting docs changes are captured.
+- **Optional Note:** If the environment already provides a dedicated search integration, it may be used only after the user explicitly chooses it.
 - **Automation potential:** Prompt — trigger with "verify version of X" or "check if API Y exists in version Z".
 
 ### 7. mcp-tool-use
-- **Trigger:** Task requires real state from outside the visible context: filesystem listing, git history, GitHub issue/PR details, or database schema.
+- **Trigger:** The task requires real state from outside the visible context, such as filesystem listing, git history, GitHub issue or PR details, or database schema.
 - **Inputs:** Task description, which MCP server to use.
-- **Steps:**
+- **Execution Options:**
+  - Solution scope: minimal real-state lookup for the current batch / complete lookup for all directly related batches.
+  - Delivery shape: module-by-module / task-by-task.
+- **Batched Steps:**
   1. Confirm the relevant MCP server is configured in `.mcp.json`.
-  2. Use the tool to fetch real state (do not infer from memory).
-  3. Validate the returned data is relevant before acting on it.
-  4. Proceed with implementation using real data.
+  2. Use the tool to fetch real state without inferring from memory.
+  3. Validate that the returned data is relevant before acting on it.
+  4. Proceed with implementation using the verified data.
   5. If the tool is unavailable, fall back to the terminal command from `docs/commands.md`.
-- **Output:** Task completed with verified real-world state, not assumptions.
-- **Verification:** The action was based on tool-returned data, not inferred.
-- **Automation potential:** Prompt — trigger with "check the current state of X" or "list files in Y".
+  6. Update `docs/plan.md` and any affected docs before closing the batch.
+- **Output:** A task completed using verified real-world state rather than assumptions.
+- **Verification:** The action was based on tool-returned data rather than inference.
+- **Definition of Done:** The batch uses verified state, related docs are synced, and the work remains reviewable.
 
 ---
 
@@ -125,103 +182,23 @@ These are stack-agnostic workflows that apply to most projects:
 These candidates apply to frontend profiles only (`nextjs`, `react`, `vue`).
 
 ### 8. impeccable-frontend-design
-- **Trigger:** Building or reviewing a UI page, component, or design system. Use before shipping any non-trivial UI.
-- **Inputs:** Target component/page or scope (e.g., "homepage hero", "checkout form"), design goal.
-- **Steps:**
+- **Trigger:** A UI page, component, or design system is being built or reviewed. Use before shipping any non-trivial UI.
+- **Inputs:** Target component or page, scope, design goal, selected execution options.
+- **Execution Options:**
+  - Solution scope: minimal polish for the current UI slice / complete treatment for the requested surface.
+  - Delivery shape: module-by-module / task-by-task.
+- **Batched Steps:**
   1. Define aesthetic direction (tone, constraints, differentiation) before writing code.
-  2. Typography: pair distinctive fonts, use modular scale with fluid sizing (`clamp()`), vary weights for hierarchy.
-  3. Color: use OKLCH/`color-mix()`, tint neutrals toward brand hue, avoid pure black/white and generic AI palette (cyan-on-dark, purple-to-blue gradients, neon accents).
-  4. Layout: create spacing rhythm, embrace asymmetry, avoid card-in-card nesting, avoid identical icon-grid cards.
-  5. Motion: exponential easing (`ease-out-quart/quint/expo`), animate `transform`/`opacity` only — never layout properties.
-  6. Interaction: progressive disclosure, optimistic UI, empty states that teach.
-  7. Run **AI Slop Test**: would someone immediately say "AI made this"? If yes, revise.
-  8. Run `/audit` (a11y, performance, responsive); finish with `/polish` before shipping.
+  2. Typography: pair distinctive fonts, use a modular scale with fluid sizing via `clamp()`, and vary weights for hierarchy.
+  3. Color: use OKLCH or `color-mix()`, tint neutrals toward the brand hue, and avoid generic AI palettes.
+  4. Layout: create spacing rhythm, embrace asymmetry, avoid card-in-card nesting, and avoid identical icon-grid cards.
+  5. Motion: use exponential easing such as `ease-out-quart`, `ease-out-quint`, or `ease-out-expo`; animate `transform` and `opacity`, not layout properties.
+  6. Interaction: prefer progressive disclosure, optimistic UI, and instructive empty states.
+  7. Run the **AI Slop Test**. If the result still looks generic, revise.
+  8. Run `/audit` for accessibility, performance, and responsiveness, then finish with `/polish` before shipping.
+  9. Update any affected docs before closing the batch.
 - **Output:** Visually distinctive, production-grade UI that avoids generic AI aesthetics.
-- **Verification:** AI Slop Test fails (good outcome). `/audit` passes with no critical issues.
-- **Automation potential:** Prompt — use Impeccable commands: `/audit`, `/critique`, `/normalize`, `/polish`, `/distill`, `/animate`, `/harden`, `/bolder`, `/quieter`.
+- **Verification:** The AI Slop Test is satisfied and `/audit` reports no critical issues.
+- **Definition of Done:** The UI slice is verified, documented where needed, and ready for a focused commit.
+- **Automation potential:** Prompt — use Impeccable commands such as `/audit`, `/critique`, `/normalize`, `/polish`, `/distill`, `/animate`, `/harden`, `/bolder`, and `/quieter`.
 - **Reference:** [pbakaus/impeccable](https://github.com/pbakaus/impeccable) — 1 skill, 17 commands, curated anti-patterns. Apache 2.0.
-
-
----
-
-<details>
-<summary>🌐 中文翻译 / Chinese Translation</summary>
-
-## Skill 候选清单
-
-只有在一个工作流被手动重复执行足够多次、能够证明其维护开销是值得的之后，才将其提升为正式 Skill。过早创建 Skill 会增加维护负担而没有实际节省时间。
-
-### 评估标准
-
-提升前确认：
-- [ ] 该工作流已被手动执行至少 3 次。
-- [ ] 步骤稳定——多次执行之间没有显著变化。
-- [ ] 自动化能节省有意义的时间（每次执行 > 5 分钟）。
-- [ ] 输入和输出定义明确且可预测。
-
-### 候选 Skill 模板
-
-```
-### Skill 名称
-
-**触发条件：** 该工作流何时开始？
-**输入：** 需要哪些信息？
-**步骤：**
-1. ...
-2. ...
-3. ...
-**输出：** 产生什么结果？
-**验证：** 如何确认它生效了？
-**自动化潜力：** 脚本 / Prompt / 手动清单
-```
-
-### 通用候选 Skill
-
-这些是不依赖技术栈的工作流，适用于大多数项目：
-
-**1. feature-scaffold（特性脚手架）**
-- **触发：** 收到带简短规格或用户故事的新特性请求。
-- **输入：** 特性名称、规格描述、目标模块。
-- **步骤：** 按 architecture.md 创建目录 → 添加占位文件 → 注册路由/导出 → 添加骨架测试。
-- **输出：** 可编译的脚手架，带一个通过的骨架测试。
-
-**2. test-diagnose-repair（测试诊断修复）**
-- **触发：** 一个或多个测试失败。
-- **输入：** 失败的测试名称/文件路径、错误输出。
-- **步骤：** 读取失败测试 → 定位根因 → 编写修复计划 → 执行修复 → 确认全部通过。
-- **输出：** 所有测试绿色，根因和修复摘要。
-
-**3. code-review（代码审查）**
-- **触发：** 提交 PR 前或完成任务后。
-- **输入：** diff 或变更文件列表。
-- **步骤：** 遍历 AGENTS.md §7 清单 → 按严重性标记问题 → 提供修复建议 → 输出总结。
-- **输出：** 带可执行反馈的结构化审查。
-
-**4. pr-summary（PR 摘要）**
-- **触发：** 从 diff 生成 PR 描述。
-- **输入：** Git diff、相关规格或任务描述。
-- **步骤：** 总结变更内容和原因 → 列出受影响模块 → 注明破坏性变更 → 评估上线风险。
-- **输出：** 可直接粘贴的 Markdown PR 描述。
-
-**5. decision-record（决策记录）**
-- **触发：** 做出了有意义的技术权衡。
-- **步骤：** 使用 docs/decisions.md 模板 → 填写上下文、决策、后果、备选方案。
-- **输出：** docs/decisions.md 中新增条目。
-
-**6. web-search-verify（网络搜索验证）**
-- **触发：** 对库版本、API 签名、CLI 参数或官方推荐不确定。
-- **步骤：** 搜索官方文档 → 与 pyproject.toml/package.json 比对 → 提出正确用法或确认。
-- **输出：** 有来源 URL 的已验证事实，或更正后的方案。
-
-**7. mcp-tool-use（MCP 工具使用）**
-- **触发：** 任务需要来自可视上下文之外的真实状态：文件系统列表、git 历史等。
-- **步骤：** 确认 MCP Server 已配置 → 使用工具获取真实状态（不推断）→ 验证数据相关性后操作。
-- **输出：** 基于工具返回数据（而非假设）完成的任务。
-
-**8. impeccable-frontend-design（精良前端设计）**
-- **触发：** 新页面/UI 组件，或发布前设计审查。
-- **步骤：** 定义美学方向 → 排版流式缩放 → OKLCH 色彩体系 → 间距系统 → 有意义的动效 → AI 俗气测试 → /audit 无障碍检查。
-- **输出：** 具有独特视觉特征的生产级 UI，通过 AI 俗气测试和 /audit 审查。
-- **参考：** [pbakaus/impeccable](https://github.com/pbakaus/impeccable)
-
-</details>

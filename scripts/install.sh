@@ -25,12 +25,14 @@ Options:
   --dry-run     Show what would be copied without writing files
   --force       Overwrite existing files without prompting
   --no-backup   Skip backup of existing files
+  --lean        Skip optional reference docs to reduce install size
   --help        Show this help message
 
 Examples:
   bash scripts/install.sh ~/code/my-app nextjs
   bash scripts/install.sh ~/code/my-api fastapi
   bash scripts/install.sh ~/code/my-app nextjs --dry-run
+  bash scripts/install.sh ~/code/my-app nextjs --lean
 EOF
   exit 0
 }
@@ -45,6 +47,7 @@ error() { printf "\033[0;31m[error]\033[0m %s\n" "$1" >&2; exit 1; }
 DRY_RUN=false
 FORCE=false
 NO_BACKUP=false
+LEAN=false
 TARGET=""
 PROFILE=""
 
@@ -53,6 +56,7 @@ while [[ $# -gt 0 ]]; do
     --dry-run)   DRY_RUN=true; shift ;;
     --force)     FORCE=true; shift ;;
     --no-backup) NO_BACKUP=true; shift ;;
+    --lean)      LEAN=true; shift ;;
     --help|-h)   usage ;;
     -*)          error "Unknown option: $1. Use --help for usage." ;;
     *)
@@ -134,6 +138,15 @@ copy_dir() {
 
   while IFS= read -r -d '' file; do
     local rel="${file#"$src/"}"
+    if should_skip_file "$rel"; then
+      if $DRY_RUN; then
+        info "[dry-run] Would skip optional file: $rel"
+      else
+        info "Skipped optional file: $rel"
+      fi
+      continue
+    fi
+
     copy_file "$file" "$dst/$rel" "$rel"
     count=$((count + 1))
   done < <(find "$src" -type f -print0)
@@ -145,12 +158,36 @@ copy_dir() {
   fi
 }
 
+OPTIONAL_FILES=(
+  "docs/skill-candidates.md"
+  "docs/copilot-cheatsheet.md"
+)
+
+should_skip_file() {
+  local rel="$1"
+
+  if ! $LEAN; then
+    return 1
+  fi
+
+  for optional in "${OPTIONAL_FILES[@]}"; do
+    if [[ "$rel" == "$optional" ]]; then
+      return 0
+    fi
+  done
+
+  return 1
+}
+
 # ── Execute ──────────────────────────────────────
 
 echo ""
 info "stack-kit v${VERSION}"
 info "Target:  $TARGET"
 info "Profile: $PROFILE"
+if $LEAN; then
+  info "Mode:    lean (skip optional reference docs)"
+fi
 echo ""
 
 # Step 1: Copy base
@@ -173,5 +210,8 @@ else
   info "  3. Review docs/architecture.md and customize the module layout."
   info "  4. Replace placeholder content in AGENTS.md if needed."
   info "  5. Start planning: read docs/plan.md and add your first milestone."
+  if $LEAN; then
+    info "  6. Optional reference docs were skipped. Re-run without --lean if you want docs/skill-candidates.md and docs/copilot-cheatsheet.md."
+  fi
 fi
 echo ""

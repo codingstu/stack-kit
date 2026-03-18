@@ -1,104 +1,82 @@
 # Skill Candidates — React Profile
 
-Extends the universal candidates in the base `docs/skill-candidates.md`.
+Extends the universal candidates in the base `docs/skill-candidates.md`. Keep the base execution model unchanged and document only React-specific differences here.
 
 ---
 
 ### 1. component-scaffold
 - **Trigger:** Create a new feature or UI component from a short brief.
-- **Inputs:** Component name, props interface, feature or shared.
-- **Steps:**
-  1. Create component file with typed props and skeleton JSX.
-  2. Create co-located test file with at least one render test.
-  3. Create co-located types if the props are complex.
-  4. Export from the feature or component index.
-- **Output:** Compilable component with one passing test.
-- **Verification:** `typecheck` + `test` pass.
+- **Inputs:** Component name, props interface, feature or shared placement, selected execution options.
+- **React-specific focus:** Typed props, co-located tests, and clear export boundaries.
+- **Batched Steps:**
+  1. Confirm whether the user wants a minimal scaffold or a complete scaffold, then whether delivery is module-by-module or task-by-task.
+  2. Create the component file with typed props and skeleton JSX for the current batch.
+  3. Create a co-located test file with at least one render test.
+  4. Create co-located types if the props are complex.
+  5. Export from the feature or component index.
+  6. Update any affected docs before closing the batch.
+- **Output:** A compilable component with one passing test.
+- **Verification:** `typecheck` and `test` pass for the current batch.
+- **Definition of Done:** The component slice compiles, docs are synchronized, and the batch is small enough for one focused commit.
 
 ### 2. hook-extract
-- **Trigger:** Repeated side-effect logic across 2+ components.
-- **Inputs:** Source components, shared logic to extract.
-- **Steps:**
-  1. Identify the shared logic and its interface (inputs/outputs).
+- **Trigger:** Repeated side-effect logic exists across two or more components.
+- **Inputs:** Source components, shared logic to extract, selected execution options.
+- **React-specific focus:** Explicit hook interfaces and isolated hook tests.
+- **Batched Steps:**
+  1. Identify the shared logic and its inputs and outputs.
   2. Create a custom hook with explicit types.
   3. Write tests for the hook in isolation.
-  4. Replace inline logic in source components with the hook.
-  5. Verify all existing tests still pass.
-- **Output:** Extracted hook with tests, refactored consumers.
-- **Verification:** `typecheck` + `test` pass, no behavior change.
+  4. Replace inline logic in the source components for the current batch.
+  5. Verify all affected tests still pass.
+  6. Update any affected docs before closing the batch.
+- **Output:** An extracted hook with tests and refactored consumers.
+- **Verification:** `typecheck` and `test` pass with no behavior change.
+- **Definition of Done:** The duplicated logic is removed for the reviewed scope, the resulting hook is verified, and the batch is commit-ready.
 
 ### 3. feature-split
 - **Trigger:** A feature module exceeds 300 lines or mixes presentation with data logic.
-- **Inputs:** Feature path, concerns to separate.
-- **Steps:**
-  1. Identify: presentation components, data hooks, domain logic, types.
-  2. Split into separate files within the feature folder.
+- **Inputs:** Feature path, concerns to separate, selected execution options.
+- **React-specific focus:** Separate feature UI, data hooks, domain logic, and types without changing behavior.
+- **Batched Steps:**
+  1. Identify presentation components, data hooks, domain logic, and types.
+  2. Split only the current reviewable slice into separate files within the feature folder.
   3. Update imports and exports.
   4. Verify no behavior change.
+  5. Update any affected docs before closing the batch.
 - **Output:** Smaller, focused files within the feature.
-- **Verification:** All existing tests pass unchanged.
+- **Verification:** Existing tests pass unchanged.
+- **Definition of Done:** The feature is cleaner for the chosen slice, docs are synced, and the diff fits one focused commit.
 
 ### 4. pr-summary
-- **Trigger:** Generate PR description from a diff.
-- **Inputs:** Git diff, related task.
-- **Steps:**
+- **Trigger:** Generate a PR description from a diff.
+- **Inputs:** Git diff, related task, selected execution options.
+- **React-specific focus:** User-visible changes, affected components and routes, state flow impact, and UI QA.
+- **Batched Steps:**
   1. Summarize user-visible changes.
   2. List affected components and routes.
   3. Note state management or data flow changes.
   4. List screenshots needed and manual QA steps.
   5. Assess regression risk.
-- **Output:** Markdown PR description.
+- **Output:** A Markdown PR description.
 - **Verification:** Human review.
+- **Definition of Done:** The summary matches the reviewed batch and its verification scope.
 
 ### 5. impeccable-frontend-design
-- **Trigger:** New React component/page, redesign, or pre-shipping UI review.
-- **Inputs:** Component name and scope, design intent or reference.
-- **Steps:**
-  1. Define aesthetic direction — avoid defaulting to Inter font, gray-on-gray, blue CTA.
-  2. Typography: fluid scale with `clamp()`, distinctive font pair (display + body), clear weight hierarchy.
-  3. Color: OKLCH palette, tinted neutrals; no purple-to-blue gradients or glowing accents.
-  4. Layout: varied spacing rhythm, intentional asymmetry, no card-in-card nesting.
-  5. Motion: Framer Motion or CSS — `ease-out-quart`, `transform`/`opacity` only; no bounce/elastic.
-  6. Interaction: optimistic updates, progressive disclosure, meaningful empty states.
-  7. Run AI Slop Test before raising PR — revise if result looks obviously AI-generated.
-  8. Run `/audit` for a11y + responsive issues.
-- **Output:** Distinctive React component that doesn't resemble generic AI output.
-- **Verification:** AI Slop Test passes (no generic fingerprints). `typecheck` + `test` green.
+- **Trigger:** A new React component or page is being built, redesigned, or reviewed before shipping.
+- **Inputs:** Component name, scope, design intent or reference, selected execution options.
+- **React-specific focus:** Typography, OKLCH color systems, spacing rhythm, and Framer Motion or CSS motion patterns.
+- **Batched Steps:**
+  1. Define aesthetic direction and avoid generic defaults.
+  2. Typography: use a fluid scale with `clamp()` and a distinctive display and body font pair.
+  3. Color: use an OKLCH palette with tinted neutrals and avoid generic gradient accents.
+  4. Layout: create varied spacing rhythm and intentional asymmetry; avoid card-in-card nesting.
+  5. Motion: use Framer Motion or CSS with `ease-out-quart` and animate only `transform` and `opacity`.
+  6. Interaction: add optimistic updates, progressive disclosure, and meaningful empty states.
+  7. Run the AI Slop Test before raising the PR and revise if the result looks generic.
+  8. Run `/audit` for accessibility and responsive issues.
+  9. Update any affected docs before closing the batch.
+- **Output:** A distinctive React component that does not resemble generic AI output.
+- **Verification:** The AI Slop Test passes, and `typecheck` plus `test` are green.
+- **Definition of Done:** The UI slice is visually intentional, verified, documented where needed, and ready for a focused commit.
 - **Reference:** [pbakaus/impeccable](https://github.com/pbakaus/impeccable)
-
-
----
-
-<details>
-<summary>🌐 中文翻译 / Chinese Translation</summary>
-
-## Skill 候选清单 — React Profile
-
-扩展 base `docs/skill-candidates.md` 中的通用候选。
-
-**1. component-scaffold（组件脚手架）**
-- **触发：** 根据简短描述创建新的特性或 UI 组件。
-- **步骤：** 创建带类型化 Props 的组件文件 → 创建共置测试文件（至少一个渲染测试）→ 如需创建共置类型文件 → 从特性或组件索引导出。
-- **输出：** 可编译的组件，带一个通过的测试。
-
-**2. hook-extract（Hook 提取）**
-- **触发：** 2+ 个组件中有重复的副作用逻辑。
-- **步骤：** 识别共享逻辑和接口 → 创建带显式类型的自定义 hook → 为 hook 编写独立测试 → 用 hook 替换源组件中的内联逻辑 → 验证现有测试仍通过。
-- **输出：** 提取的 hook（带测试）和重构后的消费者。
-
-**3. feature-split（特性拆分）**
-- **触发：** 特性模块超过 300 行或混杂了展示与数据逻辑。
-- **步骤：** 识别：展示组件、数据 hooks、领域逻辑、类型 → 拆分到特性文件夹内独立文件 → 更新导入/导出 → 验证行为无变化。
-- **输出：** 特性内更小、聚焦的文件。
-
-**4. pr-summary（PR 摘要）**
-- **触发：** 从 diff 生成 PR 描述。
-- **步骤：** 总结用户可见变更 → 列出受影响组件和路由 → 注明状态管理或数据流变更 → 列出截图需求和手动 QA 步骤。
-
-**5. impeccable-frontend-design（精良前端设计）**
-- **触发：** 新 React 组件/页面、重设计，或发布前 UI 审查。
-- **步骤：** 定义美学方向（避免 Inter 字体、灰底灰字、蓝色 CTA）→ 流式排版（`clamp()`、独特字体对）→ OKLCH 色板 → 间距节奏 → Framer Motion 动效 → 乐观更新 → AI 俗气测试 → `/audit` 无障碍检查。
-- **输出：** 不像通用 AI 输出的独特 React 组件。
-- **参考：** [pbakaus/impeccable](https://github.com/pbakaus/impeccable)
-
-</details>

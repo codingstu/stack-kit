@@ -40,7 +40,7 @@ See [PROFILE_SELECTION.md](PROFILE_SELECTION.md) for detailed selection guidance
 ### Install into a project
 
 ```bash
-bash scripts/install.sh <target-dir> <profile>
+bash scripts/install.sh <target-dir> <profile> [--lean]
 ```
 
 **Examples:**
@@ -56,11 +56,14 @@ bash scripts/install.sh ~/code/my-tool  python
 
 ```bash
 bash scripts/install.sh ~/code/my-app nextjs --dry-run    # preview without writing
-bash scripts/install.sh ~/code/my-app nextjs --force       # overwrite without prompt
-bash scripts/install.sh ~/code/my-app nextjs --no-backup   # skip .bak files
+bash scripts/install.sh ~/code/my-app nextjs --force      # overwrite without prompt
+bash scripts/install.sh ~/code/my-app nextjs --no-backup  # skip .bak files
+bash scripts/install.sh ~/code/my-app nextjs --lean       # skip optional reference docs
 ```
 
 ### After installation
+
+Use `--lean` when you want a smaller default install. It skips optional reference docs (`docs/skill-candidates.md` and `docs/copilot-cheatsheet.md`) while keeping the core workflow rules and required project docs.
 
 1. Fill `docs/spec.md` — describe your project's problem, users, and core flows.
 2. Review `docs/commands.md` — adjust the commands for your actual setup.
@@ -87,7 +90,8 @@ your-repo/
     ├── plan.md                        # Current milestone, active work, next steps
     ├── decisions.md                   # Architecture decision records (ADRs)
     ├── commands.md                    # Dev, test, lint, build commands
-    └── skill-candidates.md            # Repeatable workflow candidates
+    ├── skill-candidates.md            # Optional workflow reference (skipped with --lean)
+    └── copilot-cheatsheet.md          # Optional prompt reference (skipped with --lean)
 ```
 
 ## What the AI Rules Cover
@@ -120,7 +124,7 @@ Stack Kit works with any AI tool that reads markdown from the repo:
 
 ## Copilot Prompt Cheatsheet
 
-15 ready-to-use prompt templates for common dev scenarios (new feature, bug fix, code review, refactor, tests, pre-commit check, and more) — see [`docs/copilot-cheatsheet.md`](docs/copilot-cheatsheet.md).
+15 ready-to-use prompt templates for common dev scenarios (new feature, bug fix, code review, refactor, tests, pre-commit check, and more) — see [`docs/copilot-cheatsheet.md`](docs/copilot-cheatsheet.md). This file is optional and skipped by [`scripts/install.sh`](scripts/install.sh) when `--lean` is used.
 
 ## Frontend Design Quality
 
@@ -140,9 +144,10 @@ Audit commands available: `/audit`, `/critique`, `/normalize`, `/polish`, `/dist
 
 1. **Single source of truth.** `docs/` is the authority. `AGENTS.md` navigates to it. Tool adapters point to the same docs — they don't rewrite them.
 2. **No duplication.** Rules live once in `AGENTS.md`. Tool adapters reference it.
-3. **Thin overlays.** Each profile overrides only `docs/architecture.md`, `docs/commands.md`, and `docs/skill-candidates.md`. Everything else comes from base.
-4. **Opt-in complexity.** No Tailwind, Pinia, React Query, SQLAlchemy, or Celery pre-installed. Add what you need, when you need it.
-5. **Verify-always.** Every change must pass the quality gate before it's considered done.
+3. **Thin overlays.** Each profile overrides only `docs/architecture.md`, `docs/commands.md`, and optional `docs/skill-candidates.md`. Everything else comes from base.
+4. **Lean by default when desired.** Optional reference docs can be skipped at install time with `--lean` to reduce install size and onboarding noise.
+5. **Opt-in complexity.** No Tailwind, Pinia, React Query, SQLAlchemy, or Celery pre-installed. Add what you need, when you need it.
+6. **Verify-always.** Every change must pass the quality gate before it's considered done.
 
 ## Contributing
 
@@ -197,7 +202,7 @@ AI 助手在知道以下信息时写出更好的代码：
 ### 安装到项目
 
 ```bash
-bash scripts/install.sh <目标目录> <profile>
+bash scripts/install.sh <目标目录> <profile> [--lean]
 ```
 
 **示例：**
@@ -213,11 +218,14 @@ bash scripts/install.sh ~/code/my-tool  python
 
 ```bash
 bash scripts/install.sh ~/code/my-app nextjs --dry-run    # 预览，不写入文件
-bash scripts/install.sh ~/code/my-app nextjs --force       # 覆盖已有文件，不提示
-bash scripts/install.sh ~/code/my-app nextjs --no-backup   # 跳过 .bak 备份
+bash scripts/install.sh ~/code/my-app nextjs --force      # 覆盖已有文件，不提示
+bash scripts/install.sh ~/code/my-app nextjs --no-backup  # 跳过 .bak 备份
+bash scripts/install.sh ~/code/my-app nextjs --lean       # 跳过可选参考文档
 ```
 
 ### 安装后建议
+
+如果你想要更小的默认安装集，可以使用 `--lean`。它会跳过可选参考文档（`docs/skill-candidates.md` 和 `docs/copilot-cheatsheet.md`），但保留核心工作流规则与必需项目文档。
 
 1. 填写 `docs/spec.md` — 描述项目问题、目标用户和核心流程
 2. 修改 `docs/commands.md` — 把占位命令换成实际命令
@@ -244,7 +252,8 @@ your-repo/
     ├── plan.md                        # 当前里程碑、进行中任务、下一步
     ├── decisions.md                   # 架构决策记录（ADR）
     ├── commands.md                    # 开发、测试、lint、构建命令
-    └── skill-candidates.md            # 可复用工作流候选
+    ├── skill-candidates.md            # 可选工作流参考（`--lean` 时跳过）
+    └── copilot-cheatsheet.md          # 可选提示词参考（`--lean` 时跳过）
 ```
 
 ## AI 规则覆盖范围
@@ -275,7 +284,7 @@ your-repo/
 
 ## Copilot 指令速查卡
 
-15 个即用型 prompt 模板，覆盖常见开发场景（新功能、修 Bug、代码审查、重构、补测试、提交前检查等），见 [`docs/copilot-cheatsheet.md`](docs/copilot-cheatsheet.md)。
+15 个即用型 prompt 模板，覆盖常见开发场景（新功能、修 Bug、代码审查、重构、补测试、提交前检查等），见 [`docs/copilot-cheatsheet.md`](docs/copilot-cheatsheet.md)。该文件属于可选参考文档，使用 `--lean` 安装时会跳过。
 
 ## 前端设计质量
 
@@ -295,9 +304,10 @@ your-repo/
 
 1. **单一事实源**：`docs/` 是权威来源，`AGENTS.md` 做导航，工具适配层指向同一份文档。
 2. **无重复**：规则只在 `AGENTS.md` 中写一次，工具适配层做引用，不重写。
-3. **薄覆盖层**：每个 profile 只覆盖 `docs/architecture.md`、`docs/commands.md` 和 `docs/skill-candidates.md`，其余来自 base。
-4. **按需引入复杂度**：不预装 Tailwind、Pinia、React Query、SQLAlchemy、Celery 等，需要时再加。
-5. **永远验证**：每次改动必须通过质量门控才算完成。
+3. **薄覆盖层**：每个 profile 只覆盖 `docs/architecture.md`、`docs/commands.md` 和可选的 `docs/skill-candidates.md`，其余来自 base。
+4. **需要时可精简安装**：可通过 `--lean` 跳过可选参考文档，减少安装体积与初始噪音。
+5. **按需引入复杂度**：不预装 Tailwind、Pinia、React Query、SQLAlchemy、Celery 等，需要时再加。
+6. **永远验证**：每次改动必须通过质量门控才算完成。
 
 ## 贡献
 
